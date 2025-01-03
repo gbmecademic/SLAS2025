@@ -1,0 +1,7 @@
+# Robot constants
+
+# XBOTS constants
+PIPETTE_POSITION = []
+WAIT_POSITION = []
+SWAP_WELL_POSITION = []
+SWAP_VIAL_POSITION = []
