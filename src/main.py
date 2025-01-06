@@ -1,5 +1,6 @@
 from MecaPlanar import MecaPlanar
 from mecademicpy.robot import Robot
+from pmclib import pmc_types
 
 
 # Robot setup and activation
@@ -9,15 +10,19 @@ from mecademicpy.robot import Robot
 planar = MecaPlanar()
 planar.connect()
 
-ids = mp.get_xbot_ids()
+ids = planar.get_xbot_ids()
 
-state = PlanarState(ids)
-mp.initialize()
 
-mp.define_stereotype(pmc_types.XbotType.M3_06,
-                     1,
-                     size_pos_y=0.080,
-                     size_neg_y=-0.080)
+planar.define_stereotype(pmc_types.XbotType.M3_06,
+                         1,
+                         size_pos_y=0.080,
+                         size_neg_y=-0.080)
+
+for bot_id in ids:
+    planar.assign_stereotype(bot_id, 1)
+
+# Move everything to starting position
+
 
 # Main loop
 while True:

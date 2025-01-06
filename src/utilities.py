@@ -1,58 +1,48 @@
-from enum import IntEnum
+from copy import deepcopy
 
 
-class PlanarPositions(IntEnum):
-    UNDEF_POS = -1
-    ROBOT_1_POS = 0
-    ROBOT_2_POS = 1
-    ROBOT_3_POS = 2
-    ROBOT_4_POS = 3
-
-    def shift_next(self):
-        v = self.value + 1
-        if v > 3:
-            v = 0
-        return PlanarPositions(v)
-
-    def shift_prev(self):
-        v = self.value - 1
-        if v < 0:
-            v = 3
-        return PlanarPositions(v)
+class XbotType():
+    def __init__(self, bot_type: str, id: int):
+        self.bot_type = bot_type
+        self.id = id
 
 
-class PlanarState():
-    def __init__(self, idx_list: list[int], pos_tol: float = 0.001) -> None:
-        self.xbot_dict = {}
-        for idx in idx_list:
-            self.xbot_dict[idx] = PlanarPositions.UNDEF_POS
-        self.pos_tol = pos_tol
+class PlanarStateSLAS():
+    def __init__(self, xbot_list: list[XbotType]):
+        self.state_dict = {}
+        self.set_state(xbot_list)
 
-    def validate_position(self, xbot_pos: list[float] | tuple[float], target_pos: list[float] | tuple[float]) -> bool:
-        if target_pos[0]-self.pos_tol < xbot_pos[0] < target_pos[0]+self.pos_tol:
-            if target_pos[1]-self.pos_tol < xbot_pos[1] < target_pos[1]+self.pos_tol:
-                return True
-        return False
+    def set_state(self, bots: XbotType):
+        self.state_dict["pp"] = bots[0]
+        self.state_dict["wp"] = bots[1]
+        self.state_dict["sw"] = bots[2]
+        self.state_dict["sv"] = bots[3]
 
-    def get_idx_list(self) -> list[int]:
-        return list(self.xbot_dict.keys())
+    def get_id_positions(self) -> list[int]:
+        return [self.state_dict["pp"].id,
+                self.state_dict["wp"].id,
+                self.state_dict["sw"].id,
+                self.state_dict["sv"].id]
 
-    def set_pos_state(self, id: int, state: PlanarPositions) -> None:
-        self.xbot_dict[id] = state
+    def swap_pipetting(self):
+        temp_pp = deepcopy(self.state_dict["pp"])
+        temp_wp = deepcopy(self.state_dict["wp"])
 
-    def get_pos_state(self, id: int) -> PlanarPositions:
-        return self.xbot_dict[id]
+        self.state_dict["pp"] = deepcopy(temp_wp)
+        self.state_dict["wp"] = deepcopy(temp_pp)
 
-    def get_id_pos_order(self) -> list[int]:
-        output = []
-        for idx in sorted(self.xbot_dict, key=self.xbot_dict.get):
-            output.append(idx)
-        return output
+    def swap_full(self):
+        temp_pp = deepcopy(self.state_dict["pp"])
+        temp_wp = deepcopy(self.state_dict["wp"])
+        temp_sw = deepcopy(self.state_dict["sw"])
+        temp_sv = deepcopy(self.state_dict["sv"])
 
-    def shift_all_pos_next(self):
-        for key in self.xbot_dict:
-            self.xbot_dict[key] = self.xbot_dict[key].shift_next()
+        if temp_pp.type == "well" and temp_wp.type == "vial":
+            self.state_dict["sw"] = deepcopy(temp_pp)
+        elif temp_pp.type == "vial" and temp_wp.type == "well":
+            self.state_dict["sv"] = deepcopy(temp_pp)
+        else:
+            raise ValueError("Uh Oh can't swap cause of type issue.")
 
-    def shift_all_pos_prev(self):
-        for key in self.xbot_dict:
-            self.xbot_dict[key] = self.xbot_dict[key].shift_prev()
+        self.state_dict["pp"] = deepcopy(temp_sw)
+        self.state_dict["wp"] = deepcopy(temp_sv)
