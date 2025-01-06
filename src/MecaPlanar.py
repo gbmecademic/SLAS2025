@@ -82,11 +82,11 @@ class MecaPlanar():
             pos[stat.xbot_id] = (stat.x_pos, stat.y_pos)
 
     def send_single_linear_command(self, xbot_id: int, xpos: float, ypos: float, vel: float = 1.0, acc: float = 10.0) -> None:
-        bot.linear_motion_si(xbot_id, xpos, ypos, vel, acc)
+        bot.linear_motion_si(1, xbot_id, xpos, ypos, vel, acc)
 
     def send_multi_linear_commands(self, moves: list[PlanarMotorMove]) -> None:
         for move in moves:
-            bot.linear_motion_si(move.bot_id, move.xpos,
+            bot.linear_motion_si(1, move.bot_id, move.xpos,
                                  move.ypos, move.vel, move.acc, final_speed=move.end_speed)
 
     def send_auto_move_command(self, num_bot: int, xbot_ids: list[int], x_pos: list[float], y_pos: list[float]) -> None:
@@ -127,3 +127,6 @@ class MecaPlanar():
 
     def assign_stereotype(self, bot_id: int, ster_id: int) -> None:
         bot.assign_mover_stereotype(bot_id, ster_id)
+
+    def start_macro(self, macro_id: int, xbot_id) -> None:
+        bot.run_motion_macro(1, macro_id, xbot_id)

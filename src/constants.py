@@ -1,4 +1,11 @@
 # Robot constants
+PIPETTING_WELL_PROG = ""
+PIPETTING_VIAL_PROG = ""
+
+SWAP_WELL_LEFT = ""
+SWAP_WELL_RIGHT = ""
+SWAP_VIAL_LEFT = ""
+SWAP_VIAL_RIGHT = ""
 
 # XBOTS constants
 PIPETTE_POSITION = []
