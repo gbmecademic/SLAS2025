@@ -46,5 +46,5 @@ class PlanarStateSLAS():
         else:
             raise ValueError("Uh Oh can't swap cause of type issue.")
 
-        self.state_dict["pp"] = deepcopy(temp_sw)
-        self.state_dict["wp"] = deepcopy(temp_sv)
+        self.state_dict["pp"] = deepcopy(temp_sv)
+        self.state_dict["wp"] = deepcopy(temp_sw)
