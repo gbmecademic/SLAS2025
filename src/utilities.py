@@ -15,8 +15,8 @@ class PlanarStateSLAS():
     def set_state(self, bots: XbotType):
         self.state_dict["pp"] = bots[0]
         self.state_dict["wp"] = bots[1]
-        self.state_dict["sw"] = bots[2]
-        self.state_dict["sv"] = bots[3]
+        self.state_dict["sv"] = bots[2]
+        self.state_dict["sw"] = bots[3]
 
     def get_id_positions(self) -> list[int]:
         return [self.state_dict["pp"].id,
