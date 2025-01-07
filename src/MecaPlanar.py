@@ -94,7 +94,8 @@ class MecaPlanar():
                                  move.ypos, move.end_speed, move.vel, move.acc)
 
     def send_auto_move_command(self, num_bot: int, xbot_ids: list[int], x_pos: list[float], y_pos: list[float]) -> None:
-        bot.auto_driving_motion_si(num_bot, xbot_ids, x_pos, y_pos)
+        bot.auto_driving_motion_si(
+            num_bot, pmc_types.ASYNCOPTIONS.MOVEALL, xbot_ids, x_pos, y_pos)
 
     def wait_move_done(self, bot_id: int, timeout: float = 10.0) -> pmc_types.XBOTSTATE:
         while bot.get_xbot_status(xbot_id=bot_id).xbot_state is not pmc_types.XBOTSTATE.XBOT_IDLE:
@@ -102,6 +103,10 @@ class MecaPlanar():
                 return pmc_types.XBOTSTATE.XBOT_OBSTACLE_DETECTED
             time.sleep(0.5)
         return pmc_types.XBOTSTATE.XBOT_IDLE
+
+    def wait_multiple_move_done(self, bot_list, timeout: float = 10) -> None:
+        for bot in bot_list:
+            self.wait_move_done(bot, timeout)
 
     def define_stereotype(self,
                           mover_type: pmc_types.XBOTTYPE,

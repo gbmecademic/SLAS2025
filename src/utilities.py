@@ -37,10 +37,12 @@ class PlanarStateSLAS():
         temp_sw = deepcopy(self.state_dict["sw"])
         temp_sv = deepcopy(self.state_dict["sv"])
 
-        if temp_pp.type == "well" and temp_wp.type == "vial":
+        if temp_pp.bot_type == "well" and temp_wp.bot_type == "vial":
             self.state_dict["sw"] = deepcopy(temp_pp)
-        elif temp_pp.type == "vial" and temp_wp.type == "well":
+            self.state_dict["sv"] = deepcopy(temp_wp)
+        elif temp_pp.bot_type == "vial" and temp_wp.bot_type == "well":
             self.state_dict["sv"] = deepcopy(temp_pp)
+            self.state_dict["sw"] = deepcopy(temp_wp)
         else:
             raise ValueError("Uh Oh can't swap cause of type issue.")
 
