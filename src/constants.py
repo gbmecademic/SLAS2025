@@ -29,3 +29,7 @@ Y_POS = [PIPETTE_POSITION[1],
          WAIT_POSITION[1],
          SWAP_WELL_POSITION[1],
          SWAP_VIAL_POSITION[1]]
+
+PIPETTE_SAFE_POS = [0, 0, 0, 0, 0, 0]
+VIALS_SAFE_POS = [0, 0, 0, 0, 0, 0]
+WELL_SAFE_POS = [0, 0, 0, 0, 0, 0]
