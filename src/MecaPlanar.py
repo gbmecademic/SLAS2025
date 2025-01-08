@@ -6,7 +6,7 @@ import time
 
 
 class PlanarMotorMove():
-    def __init__(self, bot_id, xpos: float, ypos: float, vel: float, acc: float, ending_speed: float = 0) -> None:
+    def __init__(self, bot_id, xpos: float, ypos: float, vel: float = 1.0, acc: float = 10.0, ending_speed: float = 0) -> None:
         self.bot_id = bot_id
         self.xpos = xpos
         self.ypos = ypos
@@ -83,6 +83,9 @@ class MecaPlanar():
         pos = {}
         for stat in status:
             pos[stat.xbot_id] = (stat.x_pos, stat.y_pos)
+
+    def send_rotation(self, id: int) -> None:
+        bot.rotary_motion_timed_spin(1, id, 0, 52.36, 25.0, 7.0)
 
     def send_single_linear_command(self, xbot_id: int, xpos: float, ypos: float, vel: float = 1.0, acc: float = 10.0) -> None:
         bot.linear_motion_si(1, xbot_id, pmc_types.POSITIONMODE(0),
