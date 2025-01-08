@@ -48,6 +48,13 @@ wells1 = XbotType('well', 1)
 wells2 = XbotType('well', 3)
 vials1 = XbotType('vial', 4)
 vials2 = XbotType('vial', 2)
+planar.define_stereotype(pmc_types.MOVERTYPE.M3_06,
+                         1,
+                         size_pos_x=0.070,
+                         size_neg_x=-0.070)
+planar.assign_stereotype(1, 1)
+planar.assign_stereotype(3, 1)
+
 state = PlanarStateSLAS([vials1, wells1, vials2, wells2])
 
 # Move everything to starting position

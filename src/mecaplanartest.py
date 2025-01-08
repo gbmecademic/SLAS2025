@@ -16,6 +16,7 @@ vials2 = XbotType('vial', 4)
 wells1 = XbotType('well', 3)
 wells2 = XbotType('well', 2)
 
+
 print("pp wp sw sv")
 print("w  v  w  v")
 state = PlanarStateSLAS([vials1, wells1, vials2, wells2])
