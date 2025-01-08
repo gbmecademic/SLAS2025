@@ -124,21 +124,23 @@ class MecaPlanar():
                           cg_y: float = 0,
                           cg_z: float = 0,
                           emerg_d_acc: float = 20) -> None:
+        mover_data = pmc_types.MoverStereotypeData(perf_level,
+                                                   payload,
+                                                   size_pos_x,
+                                                   size_neg_x,
+                                                   size_pos_y,
+                                                   size_neg_y,
+                                                   cg_x,
+                                                   cg_y,
+                                                   cg_z,
+                                                   emerg_d_acc)
         bot.define_mover_stereotype(mover_type,
                                     id,
-                                    payload,
-                                    size_pos_x,
-                                    size_neg_x,
-                                    size_pos_y,
-                                    size_neg_y,
-                                    perf_level,
-                                    cg_x,
-                                    cg_y,
-                                    cg_z,
-                                    emerg_d_acc)
+                                    mover_data)
 
     def assign_stereotype(self, bot_id: int, ster_id: int) -> None:
-        bot.assign_stereotype_to_mover(bot_id, ster_id,)
+        bot.assign_stereotype_to_mover(
+            bot_id, ster_id, pmc_types.ASSIGNSTEREOTYPEOPTION(0))
 
     def start_macro(self, macro_id: int, xbot_id) -> None:
         bot.run_motion_macro(1, macro_id, xbot_id)
